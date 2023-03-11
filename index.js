@@ -91,7 +91,9 @@ const checkDailyCommit = async ({ target, auto }) => {
   }
 };
 
-client.once("message", async (message) => {
+client.on("message", async (message) => {
+  const commandList = ["!search"];
+
   switch (message.channel.type) {
     case "dm":
       if (message.content === "test") checkDailyCommit({ target: message, auto: false });
@@ -100,12 +102,17 @@ client.once("message", async (message) => {
       const lastMessage = await message.channel.messages.fetch(message.author.lastMessageID);
       const command = lastMessage.content.split(" ");
 
-      if (command[0].startsWith("!" + "search")) {
-        searchDailyCommit({ target: message, user: command[1] });
+      if (command[0].startsWith("!")) {
+        if (command[0] === "!" + "search") {
+          searchDailyCommit({ target: message, user: command[1] });
+        }
+
+        if (!commandList.includes(command[0])) {
+          sendMessage({ message: "알 수 없는 명령어입니다." });
+        }
       }
       break;
     default:
-      sendMessage({ message: "알 수 없는 명령어입니다." });
       break;
   }
 });
