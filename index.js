@@ -1,6 +1,6 @@
 const { Client, Intents } = require("discord.js");
 const client = new Client({
-  Intents: [Intents.FLAGS.GUILDS, Intents.FLAGS.GUILD_MESSAGES, Intents.FLAGS.MESSAGE_CONTENT],
+  intents: [Intents.FLAGS.GUILDS, Intents.FLAGS.GUILD_MESSAGES, Intents.FLAGS.MESSAGE_CONTENT],
 });
 
 const moment = require("moment");
