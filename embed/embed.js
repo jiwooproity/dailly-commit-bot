@@ -1,8 +1,11 @@
 const moment = require("moment");
 const axios = require("axios");
 
-const { Client, Intents, MessageEmbed } = require("discord.js");
-const client = new Client({ intents: [Intents.FLAGS.GUILDS, Intents.FLAGS.GUILD_MESSAGES, Intents.FLAGS.MESSAGE_CONTENT] });
+const { Client, GatewayIntentBits, Partials, EmbedBuilder } = require("discord.js");
+const client = new Client({
+  intents: [GatewayIntentBits.Guilds, GatewayIntentBits.GuildMessages, GatewayIntentBits.MessageContent],
+  partials: [Partials.Message, Partials.Channel, Partials.Reaction],
+});
 
 const space = { name: "\u2008", value: "\u2008" };
 
@@ -32,7 +35,7 @@ const createContribution = async ({ data }) => {
   const results = contributions.map((c) => c.data.contributions.find(findToday));
   const fields = results.map(messageObject);
 
-  const embed = new MessageEmbed();
+  const embed = new EmbedBuilder();
   const color = results.every((r) => r.count > 0) ? "0x47e686" : "0xf05454";
 
   embed.setTitle("매일 잔디 심기 챌린지");
@@ -44,12 +47,12 @@ const createContribution = async ({ data }) => {
   embed.addFields({ ...space });
 
   embed.setTimestamp();
-  embed.setFooter("jiwooproity", "https://noticon-static.tammolo.com/dgggcrkxq/image/upload/v1567128822/noticon/osiivsvhnu4nt8doquo0.png");
+  embed.setFooter({ text: "jiwooproity", iconURL: "https://noticon-static.tammolo.com/dgggcrkxq/image/upload/v1567128822/noticon/osiivsvhnu4nt8doquo0.png" });
   return embed;
 };
 
 const createHelpEmbed = () => {
-  const embed = new MessageEmbed();
+  const embed = new EmbedBuilder();
   const color = "0x47e686";
 
   embed.setTitle("!help");
@@ -62,7 +65,7 @@ const createHelpEmbed = () => {
   embed.addFields({ ...space });
 
   embed.setTimestamp();
-  embed.setFooter("jiwooproity", "https://noticon-static.tammolo.com/dgggcrkxq/image/upload/v1567128822/noticon/osiivsvhnu4nt8doquo0.png");
+  embed.setFooter({ text: "jiwooproity", iconURL: "https://noticon-static.tammolo.com/dgggcrkxq/image/upload/v1567128822/noticon/osiivsvhnu4nt8doquo0.png" });
   return embed;
 };
 
