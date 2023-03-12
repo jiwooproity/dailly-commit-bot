@@ -1,6 +1,7 @@
-const { Client, Intents } = require("discord.js");
+const { Client, GatewayIntentBits, Partials } = require("discord.js");
 const client = new Client({
-  intents: [Intents.FLAGS.GUILDS, Intents.FLAGS.GUILD_MESSAGES, Intents.FLAGS.MESSAGE_CONTENT],
+  intents: [GatewayIntentBits.Guilds, GatewayIntentBits.GuildMessages, GatewayIntentBits.MessageContent],
+  partials: [Partials.Message, Partials.Channel, Partials.Reaction],
 });
 
 const moment = require("moment");
@@ -8,14 +9,14 @@ require("dotenv").config();
 
 const { commands, command } = require("./command/command");
 
-client.on("message", async (message) => {
+client.on("messageCreate", async (message) => {
   const prefix = "!";
 
   switch (message.channel.type) {
     case "dm":
       break;
-    case "text":
-      const fetchMessage = await message.channel.messages.fetch(message.author.lastMessageID);
+    case 0:
+      const fetchMessage = await message.channel.messages.fetch(message.id);
       const parseMessage = fetchMessage.content.split(" ");
 
       if (parseMessage[0].startsWith(prefix)) {
@@ -35,9 +36,9 @@ client.on("message", async (message) => {
   }
 });
 
-// client.once("ready", () => {
-//   command.alertChannels({ message: "봇 알림이 활성화 되었습니다." });
-// });
+client.once("ready", () => {
+  command.alertChannels({ message: "봇 알림이 활성화 되었습니다." });
+});
 
 setInterval(() => {
   const todayMoment = moment(new Date()).format("HH:mm:ss");
