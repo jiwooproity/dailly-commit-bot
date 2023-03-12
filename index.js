@@ -9,6 +9,8 @@ require("dotenv").config();
 const { commands, command } = require("./command/command");
 
 client.on("message", async (message) => {
+  const prefix = "!";
+
   switch (message.channel.type) {
     case "dm":
       break;
@@ -16,9 +18,9 @@ client.on("message", async (message) => {
       const fetchMessage = await message.channel.messages.fetch(message.author.lastMessageID);
       const parseMessage = fetchMessage.content.split(" ");
 
-      if (parseMessage[0].startsWith("!")) {
+      if (parseMessage[0].startsWith(prefix)) {
         const shift = parseMessage.shift();
-        const request = shift.replace("!", "");
+        const request = shift.replace(prefix, "");
 
         if (!commands.includes(request)) {
           command.message({ message, content: "알 수 없는 명렁어입니다." });
