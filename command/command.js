@@ -12,7 +12,7 @@ const channelFetch = (channelId) => {
 
 const sendAlert = async () => {
   const embed = await embeds.createEmbed({ data: ["jiwooproity"] });
-  client.channels.cache.get(process.env.DEVELOPER_CHANNEL).send({ embeds: [embed] });
+  client.channels.cache.get(process.env.DEVELOPER_ID).send({ embeds: [embed] });
 };
 
 const helpCommand = async ({ message }) => {
