@@ -36,7 +36,7 @@ const createContribution = async ({ data }) => {
   const fields = results.map(messageObject);
 
   const embed = new EmbedBuilder();
-  const color = results.every((r) => r.count > 0) ? "0x47e686" : "0xf05454";
+  const color = results.every((r) => r.count > 0) ? 4712070 : 15750228;
 
   embed.setTitle("매일 잔디 심기 챌린지");
   embed.setDescription("매일 6시 정각에 커밋 상태를 확인하고 알림을 전송합니다.");
@@ -53,7 +53,7 @@ const createContribution = async ({ data }) => {
 
 const createHelpEmbed = () => {
   const embed = new EmbedBuilder();
-  const color = "0x47e686";
+  const color = 4712070;
 
   embed.setTitle("!help");
   embed.setDescription("매일 잔디 심기 챌린지 봇 명령어는 아래와 같습니다.");
