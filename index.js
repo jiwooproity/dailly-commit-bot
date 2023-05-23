@@ -49,7 +49,7 @@ client.on("messageCreate", async (message) => {
 
 setInterval(() => {
   const todayMoment = moment(new Date()).format("HH:mm:ss");
-  if (todayMoment === "16:42:00") command.alert();
+  if (todayMoment === "09:00:00") command.alert();
 }, 1000);
 
 client.login(process.env.DISCORD_TOKEN);
