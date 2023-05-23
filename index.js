@@ -1,48 +1,55 @@
 const { Client, GatewayIntentBits, Partials } = require("discord.js");
 const client = new Client({
-  intents: [GatewayIntentBits.Guilds, GatewayIntentBits.GuildMessages, GatewayIntentBits.MessageContent],
+  intents: [GatewayIntentBits.Guilds, GatewayIntentBits.DirectMessages, GatewayIntentBits.DirectMessageTyping, GatewayIntentBits.GuildMessages, GatewayIntentBits.MessageContent],
   partials: [Partials.Message, Partials.Channel, Partials.Reaction],
 });
 
 const moment = require("moment");
 require("dotenv").config();
-
 const { commands, command } = require("./command/command");
 
+const prefix = process.env.BOT_PREFIX;
+
 client.on("messageCreate", async (message) => {
-  const prefix = "!";
+  let fetchMessage = '';
 
-  switch (message.channel.type) {
-    case "dm":
-      break;
-    case 0:
-      const fetchMessage = await message.channel.messages.fetch(message.id);
-      const parseMessage = fetchMessage.content.split(" ");
+  const { id, channelId, author, channel } = message;
+  const { discriminator } = author;
+  const { type } = channel;
 
-      if (parseMessage[0].startsWith(prefix)) {
-        const shift = parseMessage.shift();
-        const request = shift.replace(prefix, "");
+  // 디스코드 봇의 DM인 경우 감지하지 않음
+  if (discriminator !== '2140') {
+    switch (type) {
+      case 1:
+        fetchMessage = await author.dmChannel.messages.fetch(id);
+        break;
+      case 0:
+        fetchMessage = await channel.messages.fetch(id);
+        break;
+      default:
+        break;
+    }
+  
+    const parseMessage = fetchMessage.content.split(" ");
+    const [cmdName, cmdContent] = parseMessage;
+  
+    if (cmdName.startsWith(prefix)) {
+      const request = cmdName.replace(prefix, "");
+      const isExist = commands.includes(request);
 
-        if (!commands.includes(request)) {
-          command.message({ message, content: "알 수 없는 명렁어입니다." });
-        } else {
-          const data = parseMessage.join("");
-          command[request] && command[request]({ message, data });
-        }
-      }
-      break;
-    default:
-      break;
+      if (isExist) command[request]({ channelId, cmdContent });
+      else command.message({ channelId, content: "알 수 없는 명렁어입니다." });
+    }
   }
 });
 
-client.once("ready", () => {
-  command.alertChannels({ message: "봇 알림이 활성화 되었습니다." });
-});
+// client.once("ready", () => {
+//   command.alertChannels({ content: "봇 알림이 활성화 되었습니다." });
+// });
 
 setInterval(() => {
   const todayMoment = moment(new Date()).format("HH:mm:ss");
-  if (todayMoment === "09:00:00") command.alert();
+  if (todayMoment === "16:42:00") command.alert();
 }, 1000);
 
 client.login(process.env.DISCORD_TOKEN);
