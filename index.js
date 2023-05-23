@@ -37,7 +37,7 @@ client.on("messageCreate", async (message) => {
       const request = cmdName.replace(prefix, "");
       const isExist = commands.includes(request);
 
-      if (isExist) command[request]({ channelId, cmdContent });
+      if (isExist) command[request]({ channelId, content: cmdContent });
       else command.message({ channelId, content: "알 수 없는 명렁어입니다." });
     }
   }

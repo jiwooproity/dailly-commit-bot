@@ -18,8 +18,8 @@ const onSendHelp = ({ channelId }) => {
   client.channels.cache.get(channelId).send({ embeds: [embed] });
 };
 
-const onSendResult = async ({ channelId, data }) => {
-  const embed = await embeds.createEmbed({ data: data.split(",") });
+const onSendResult = async ({ channelId, content }) => {
+  const embed = await embeds.createEmbed({ data: content.split(",") });
   client.channels.cache.get(channelId).send({ embeds: [embed] });
 };
 
