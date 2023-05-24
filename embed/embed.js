@@ -83,8 +83,8 @@ const createHelpEmbed = () => {
 
   embed.addFields({ ...space });
   embed.addFields({ name: "!help", value: "명령어 목록", inline: true });
-  embed.addFields({ name: "!search", value: "유저 커밋 상태 확인\n!search {gitname}, {gitname}", inline: true });
-  embed.addFields({ name: "!pinch", value: "그룹에 속한 원하는 유저에게 재촉 메세지를 전송합니다.", inline: false });
+  embed.addFields({ name: "!search", value: `유저 커밋 상태 확인\n!search {gitname} {gitname}`, inline: true });
+  embed.addFields({ name: "!pinch", value: `재촉 메세지 전송\n!pinch {사용자ID} {재촉 메세지}`, inline: false });
   embed.addFields({ name: "!noti", value: "그룹 내 유저들에게 공지 메세지를 전송합니다.", inline: true });
   embed.addFields({ ...space });
 
