@@ -12,7 +12,10 @@ const Fetch = {
         return users.map((user) => user.id);
     },
     async getFetchUsers({ userList }) {
-        return await Promise.all(userList.map((id) => client.users.fetch(id), false));
+        return await Promise.all(userList.map((id) => client.users.fetch(id)));
+    },
+    async getFetchUser({ userId }) {
+        return await client.users.fetch(userId);
     }
 };
 
