@@ -5,41 +5,55 @@ const client = new Client({
 });
 
 const moment = require("moment");
-require("dotenv").config();
 const { commands, command } = require("./command/command");
+const { Type } = require("./utils/Type");
+const { Convert } = require("./utils/Convert");
+require("dotenv").config();
 
 const prefix = process.env.BOT_PREFIX;
 
 client.on("messageCreate", async (message) => {
   let fetchMessage = '';
 
-  const { id, channelId, author, channel } = message;
-  const { discriminator } = author;
+  const { id, channelId, guildId, author, channel } = message;
+  const { discriminator, username } = author;
   const { type } = channel;
 
   // 디스코드 봇의 DM인 경우 감지하지 않음
   if (discriminator !== '2140') {
-    switch (type) {
-      case 1:
-        fetchMessage = await author.dmChannel.messages.fetch(id);
-        break;
-      case 0:
-        fetchMessage = await channel.messages.fetch(id);
-        break;
-      default:
-        break;
-    }
-  
-    const parseMessage = fetchMessage.content.split(" ");
-    const [cmdName, cmdContent] = parseMessage;
-  
-    if (cmdName.startsWith(prefix)) {
-      const request = cmdName.replace(prefix, "");
-      const isExist = commands.includes(request);
+    try {
+      switch (type) {
+        case Type.MESSAGE.DM:
+          fetchMessage = await author.dmChannel.messages.fetch(id);
+          break;
+        case Type.MESSAGE.GUILD:
+          fetchMessage = await channel.messages.fetch(id);
+          break;
+        default:
+          break;
+      }
 
-      if (isExist) command[request]({ channelId, content: cmdContent });
-      else command.message({ channelId, content: "알 수 없는 명렁어입니다." });
-    }
+      const { content } = fetchMessage;
+      const getCommand = Convert.getCommand({ content: content });
+    
+      if (getCommand.startsWith(prefix)) {
+        const request = getCommand.replace(prefix, "");
+        const isExist = commands.includes(request);
+        const getContent = Convert.getContent({ command: getCommand, content: content });
+  
+        if (isExist) {
+          command[request]({
+            message,
+            channelId,
+            guildId,
+            username,
+            content: getContent,
+          });
+        } else {
+          command.message({ channelId, content: "알 수 없는 명렁어입니다." });
+        }
+      }
+    } catch {}
   }
 });
 
