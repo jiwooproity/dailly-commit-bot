@@ -32,28 +32,21 @@ client.on("messageCreate", async (message) => {
         default:
           break;
       }
+    } catch {
+      return;
+    }
 
-      const { content } = fetchMessage;
-      const getCommand = Convert.getCommand({ content: content });
-    
-      if (getCommand.startsWith(prefix)) {
-        const request = getCommand.replace(prefix, "");
-        const isExist = commands.includes(request);
-        const getContent = Convert.getContent({ command: getCommand, content: content });
+    const { content } = fetchMessage;
+    const getCommand = Convert.getCommand({ content: content });
   
-        if (isExist) {
-          command[request]({
-            message,
-            channelId,
-            guildId,
-            username,
-            content: getContent,
-          });
-        } else {
-          command.message({ channelId, content: "알 수 없는 명렁어입니다." });
-        }
-      }
-    } catch {}
+    if (getCommand.startsWith(prefix)) {
+      const request = getCommand.replace(prefix, "");
+      const isExist = commands.includes(request);
+      const getContent = Convert.getContent({ command: getCommand, content: content });
+
+      if (isExist) command[request]({ message, channelId, guildId, username, content: getContent });
+      else command.message({ channelId, content: "알 수 없는 명렁어입니다." });
+    }
   }
 });
 

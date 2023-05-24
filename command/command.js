@@ -6,11 +6,20 @@ const client = new Client({
 
 require("dotenv").config();
 const { embeds } = require("../embed/embed");
+const { Convert } = require("../utils/Convert");
 const { Fetch } = require("../apis/Fetch");
 
 const onSendMsgToUsers = ({ to, content }) => {
   to.map((user) => user.send(content));
 };
+
+const onSendEmbed = ({ channelId, embed }) => {
+  client.channels.cache.get(channelId).send({ embeds: [embed] });
+}
+
+const onSendContent = ({ channelId, content }) => {
+  client.channels.cache.get(channelId).send(content);
+}
 
 // -- 명령어 입력 동작 함수
 const onSendAlert = async () => {
@@ -27,33 +36,32 @@ const onSendGuildNoti = async ({ message, guildId, channelId, username, content 
 
     onSendMsgToUsers({ to: userInfo, content: notiMessage });
   } else {
-    onSendMessage({ channelId, content: '서버에서만 동작하는 명령어입니다.' });
+    onSendContent({ channelId, content: '서버에서만 동작하는 명령어입니다.' });
   }
 }
 
-const onSendPinch = async ({ guildId, from, content }) => {
-  // const userIds = await Fetch.getFetchGuildMemberIds({ guildId });
-  // const userInfo = await Fetch.getFetchUsers({ userList: userIds });
-  // onSendMsgToUsers({ from: from, to: userInfo, content: `${from}님의 재촉 메세지 : ${content}` });
+const onSendPinch = async ({ username, content }) => {
+  const [userId] = content.split(" ");
+  const pinchMessage = Convert.getPinchContent({ userId, content });
+  const userInfo = await Fetch.getFetchUser({ userId });
+  userInfo.send(`${username}님의 재촉 메세지 : ${pinchMessage}`);
 }
 
 const onSendHelp = ({ channelId }) => {
   const embed = embeds.helpEmbed();
-  client.channels.cache.get(channelId).send({ embeds: [embed] });
+  onSendEmbed({ channelId, embed });
 };
 
 const onSendResult = async ({ channelId, content }) => {
   if (content !== '!search') {
     const embed = await embeds.createEmbed({ data: content.split(" ") });
-    client.channels.cache.get(channelId).send({ embeds: [embed] });
+    onSendEmbed({ channelId, embed });
   } else {
-    onSendMessage({ channelId, content: '검색할 사용자의 GitHub ID를 입력해주세요.' });
+    onSendContent({ channelId, content: '검색할 사용자의 GitHub ID를 입력해주세요.' });
   }
 };
 
-const onSendMessage = ({ channelId, content }) => {
-  client.channels.cache.get(channelId).send(content);
-};
+const onSendMessage = ({ channelId, content }) => onSendContent({ channelId, content });
 
 exports.commands = ['pinch', 'noti', 'help', 'search'];
 exports.command = {
