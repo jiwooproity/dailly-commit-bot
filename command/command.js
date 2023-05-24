@@ -6,7 +6,7 @@ const client = new Client({
 
 require("dotenv").config();
 const { embeds } = require("../embed/embed");
-const { Fetch } = require("../apis/fetch");
+const { Fetch } = require("../apis/Fetch");
 
 const onSendMsgToUsers = ({ to, content }) => {
   to.map((user) => user.send(content));
