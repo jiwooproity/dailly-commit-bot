@@ -22,7 +22,7 @@ const createContribution = async ({ data }) => {
   const requestContribution = async (user) => {
     try {
       return await axios.get(
-        `https://github-contributions-api.jogruber.de/v4/${user}?y=2023`
+        `https://github-contributions-api.jogruber.de/v4/${user}?y=2024`
       );
     } catch {
       return {
@@ -48,12 +48,16 @@ const createContribution = async ({ data }) => {
   };
 
   const status = (value) => {
-    const { count = 0, failed = true } = value;
+    if (value) {
+      const { count, failed } = value;
 
-    if (failed) {
-      return "대상 없음";
+      if (failed) {
+        return "대상 없음";
+      } else {
+        return count > 0 ? "완료" : "미완료";
+      }
     } else {
-      return count > 0 ? "완료" : "미완료";
+      return "미완료";
     }
   };
 
