@@ -48,7 +48,7 @@ const createContribution = async ({ data }) => {
   };
 
   const status = (value) => {
-    const { count, failed } = value;
+    const { count = 0, failed = true } = value;
 
     if (failed) {
       return "대상 없음";
