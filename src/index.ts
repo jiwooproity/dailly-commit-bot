@@ -18,8 +18,7 @@ const handleReady = async () => {
 const handleInteractionCreate = async (interaction: Interaction) => {
   if (!interaction.isCommand()) return;
   const commandName = interaction.commandName;
-  const finding = ({ name }: { name: string }) => name === commandName;
-  const cmd = commands.find(finding);
+  const cmd = commands.find(({ name }: { name: string }) => name === commandName);
 
   if (cmd) {
     await interaction.deferReply();
@@ -34,27 +33,23 @@ const ready = () => {
 
 const start = async () => {
   try {
-    await client.login(process.env.DISCORD_TOKEN);
+    await client.login(process.env.DISCORD_TOKEN).then(ready);
   } catch (e) {
     console.log("Daily bot login to failed");
-  } finally {
-    ready();
   }
 };
-
-start();
 
 setInterval(() => {
   const today = dayjs(new Date()).format("HH:mm:ss");
   if (today === "09:00:00") {
-    const alert = async () => {
+    async () => {
       const clientId = process.env.DEVELOPER_ID as string;
       const requests = [createEmbed("jiwooproity"), client.users.fetch(clientId)];
       const responses = await Promise.all(requests.map((req) => req));
       const [embed, info] = responses as [EmbedBuilder, User];
       info.send({ embeds: [embed] });
     };
-
-    alert();
   }
 }, 1000);
+
+start();
