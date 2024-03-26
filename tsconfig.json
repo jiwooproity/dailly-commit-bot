@@ -1,0 +1,12 @@
+{
+  "compilerOptions": {
+    "outDir": "build",
+    "target": "ES6",
+    "lib": ["ES6"],
+    "strict": true,
+    "esModuleInterop": true,
+    "module": "CommonJS",
+    "baseUrl": "src"
+  },
+  "include": ["src/**/*", "src/image.d.ts"]
+}
