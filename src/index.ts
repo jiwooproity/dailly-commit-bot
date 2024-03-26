@@ -46,7 +46,7 @@ start();
 
 setInterval(() => {
   const today = dayjs(new Date()).format("HH:mm:ss");
-  if (today === "04:09:00") {
+  if (today === "09:00:00") {
     const alert = async () => {
       const clientId = process.env.DEVELOPER_ID as string;
       const requests = [createEmbed("jiwooproity"), client.users.fetch(clientId)];
