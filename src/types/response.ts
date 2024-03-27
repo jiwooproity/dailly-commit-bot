@@ -16,4 +16,5 @@ export interface ContributionsResIF {
 export interface GitHubProfileIF {
   avatar_url: string;
   name: string;
+  message: string;
 }
