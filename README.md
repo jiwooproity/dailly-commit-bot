@@ -46,5 +46,9 @@ Discord.js
 
 # 서비스 예정
 나 자신만의 디스코드 봇이 아닌 개발에 대한 애정을 가진 모든 개발자가 사용했으면 하는 마음에 서비스를 하고자 기획 중에 있습니다.  
-자신의 깃 아이디를 입력하여 등록하면 사용자에게 정해진 시간에 커밋 상태를 전달하고, 한번 더 코드에 대한 생각을 할 수 있게 도와주는 봇이 되었음 합니다.  
-추가 업데이트로 찾아뵙겠습니다.
+추가 업데이트로 찾아뵙겠습니다.  
+
+# 미리보기
+![스크린샷 2024-03-28 오후 2 55 48](https://github.com/jiwooproity/dailly-commit-bot/assets/58384366/f95a85a6-5f28-4b48-8f39-56869c85d84b)  
+![스크린샷 2024-03-28 오후 2 56 02](https://github.com/jiwooproity/dailly-commit-bot/assets/58384366/00985420-df47-4eaf-890c-a2d1bf7abb03)  
+![스크린샷 2024-03-28 오후 2 56 20](https://github.com/jiwooproity/dailly-commit-bot/assets/58384366/dab9521e-bbea-460c-b16d-2f43ac24b7be)
