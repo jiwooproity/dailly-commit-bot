@@ -1,3 +1,4 @@
-import { convertDec } from "./convertDec";
+import convertDec from "./convertDec";
+import getDate from "./getDate";
 
-export { convertDec };
+export { convertDec, getDate };
