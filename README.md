@@ -1,24 +1,45 @@
 # Daily Commit Checker Bot
-매일 6시 정각에 커밋 상태를 체크하고, 특정 사용자에게 상태 메세지를 전달합니다.
+![image](https://github.com/jiwooproity/dailly-commit-bot/assets/58384366/24258d37-0567-4e8f-b139-39581cf6157d)
 
-# Skills
-Node.js, Typescript  
-Discord.js v14
 
-# Build
-ESBuild
+# 디스코드 봇 초대 링크
+<a href="https://discord.com/oauth2/authorize?client_id=1083962444772290673&permissions=8&scope=bot">데일리 커밋 봇 초대하기</a>
 
-# Command
-|Command|Description|
-|---|---|
-|Help|데일리 커밋 봇의 명령어를 가이드합니다.|
-|Developer|데일리 커밋 봇 개발자를 소개합니다.|
-|Search|검색한 사용자의 커밋 상태를 전달합니다.|
-|Capture|![image](https://github.com/jiwooproity/dailly-commit-bot/assets/58384366/8228b40f-91a7-47f9-8c01-a4d08257640e)
+# 개발
+개인 프로젝트  
+Front-End 소지우
 
-# Preview
-|Command|Preview|
-|---|---|
-|Help|![image](https://github.com/jiwooproity/dailly-commit-bot/assets/58384366/38bdfe9e-58d0-4b75-be85-49c35490546c)|
-|Developer|![image](https://github.com/jiwooproity/dailly-commit-bot/assets/58384366/10b7430a-f858-4bf9-a7e6-b0e23f0b914c)|
-|Search {author}|![image](https://github.com/jiwooproity/dailly-commit-bot/assets/58384366/4291af80-6c67-43ee-8acb-ea5fb3c8f47e)
+# 프로젝트 소개
+매일 6시마다 커밋 반영사항이 어떻게 되는 지 전달하는 역할을 하며, 역량 강화를 목표로 만들어진 봇입니다.
+
+Node.js 런타임 환경에서 Discord API와 쉽게 상호작용할 수 있도록 도와주는 라이브러리를 활용하여 만들었습니다.
+
+알림이 차곡차곡 DM에 히스토리로 쌓이게 되어, 얼만큼 반영을 하고 노력하였는 지 확인이 가능하며,  
+그로 인해, 바쁜 일상 속에서 궁금한 기술이 있거나 학습이 필요한 기술이 있는 지 한번 더 고민하여 꾸준함을 길러주는 역할을 합니다.  
+
+# 기술 스택
+Node.js
+- 런타임 환경에서 자바스크립트 코드를 실행하기 위한 환경 구성  
+
+Typescript
+- 정적 타입 언어 구성 기반으로 개발
+- 런타임 환경에서의 에러, 코드 작성 단계에서 예기치 못한 타입 에러 등을 방지
+
+Discord.js
+- Discord API를 쉽게 상호작용하기 위한 라이브러리 활용
+
+# 데일리 커밋 효과
+스스로 부지런한 개발자가 되고 싶고, 남는 시간을 활용하여 개발에 기여하고 싶었습니다.  
+
+개발한 디스코드 봇을 나 자신에게 적용하여 매번 알림을 보고 오늘은 어떤 개발을 해볼까 ..  
+새로운 기술을 사용해 볼까?, 어떤 코드를 리팩토링해 볼까?, 오늘은 좀 휴식해 볼까? 등을 고민해 보도록 해주고 있습니다.
+
+지금까지도 디스코드 봇을 활용하여 내 커밋 상태를 모니터링하고, 조금 더 개발에 대한 애정을 가질 수 있는 계기가 되고 있습니다.
+
+# 기능
+### Help
+- 데일리 커밋 봇 명령어를 가이드합니다.
+### Developer
+- 데일리 커밋 봇 개발자를 소개합니다.
+### Search {GitHub ID}
+- 검색한 사용자의 커밋 상태를 전달합니다.
