@@ -11,6 +11,7 @@ export interface ContributionsIF {
 export interface ContributionsResIF {
   total: TotalIF;
   contributions: ContributionsIF[];
+  error?: string | undefined
 }
 
 export interface GitHubProfileIF {
