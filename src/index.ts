@@ -1,20 +1,21 @@
-import { Client, EmbedBuilder, Interaction, User } from "discord.js";
+import { Client, Interaction } from "discord.js";
 import dotenv from "dotenv";
 dotenv.config();
 
+import alert from "./alert";
 import commands from "./commands";
-import { createEmbed } from "./commands/search";
-import dayjs from "dayjs";
 
 const client = new Client({
   intents: [],
 });
 
+// 디스코드 봇 준비 활성화 후 처리
 const handleReady = async () => {
   if (!client.application) return;
   await client.application.commands.set(commands);
 };
 
+// 사용자 입력 감지
 const handleInteractionCreate = async (interaction: Interaction) => {
   if (!interaction.isCommand()) return;
   const commandName = interaction.commandName;
@@ -29,6 +30,7 @@ const handleInteractionCreate = async (interaction: Interaction) => {
 const ready = () => {
   client.on("ready", handleReady);
   client.on("interactionCreate", handleInteractionCreate);
+  alert(client);
 };
 
 const start = async () => {
@@ -38,18 +40,5 @@ const start = async () => {
     console.log("Daily bot login to failed");
   }
 };
-
-setInterval(() => {
-  const today = dayjs(new Date()).format("HH:mm:ss");
-  if (today === "09:00:00") {
-    async () => {
-      const clientId = process.env.DEVELOPER_ID as string;
-      const requests = [createEmbed("jiwooproity"), client.users.fetch(clientId)];
-      const responses = await Promise.all(requests.map((req) => req));
-      const [embed, info] = responses as [EmbedBuilder, User];
-      info.send({ embeds: [embed] });
-    };
-  }
-}, 1000);
 
 start();

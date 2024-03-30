@@ -2,11 +2,11 @@
   "compilerOptions": {
     "outDir": "build",
     "target": "ES6",
-    "lib": ["ES6"],
+    "lib": ["ES2021"],
     "strict": true,
     "esModuleInterop": true,
     "module": "CommonJS",
     "baseUrl": "src"
   },
-  "include": ["src/**/*", "src/image.d.ts"]
+  "include": ["src/**/*"]
 }
