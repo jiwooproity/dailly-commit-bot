@@ -15,8 +15,7 @@ export const getGitHubInfo = async (author: string): Promise<GitHubProfileIF> =>
 
 export const getGitHubCommit = async (author: string): Promise<ContributionsIF> => {
   const [, year, day] = getDate();
-  const url = `https://github-contributions-api.jogruber.de/v4/${author}?y=${year}`;
-  const commitInfo = await contributionInstance.get(url);
+  const commitInfo = await contributionInstance.get(`/${author}?y=${year}`);
 
   if (commitInfo.data.error) {
     throw new Error("검색한 사용자의 정보를 알 수 없습니다.");
