@@ -1,5 +1,17 @@
+import { CommandInteraction } from "discord.js";
 import { initializeApp } from "firebase/app";
-import { DocumentData, collection, getDocs, getFirestore } from "firebase/firestore/lite";
+import {
+  DocumentData,
+  addDoc,
+  collection,
+  deleteDoc,
+  doc,
+  getDoc,
+  getDocs,
+  getFirestore,
+  query,
+  where,
+} from "firebase/firestore/lite";
 
 const firebaseConfig = {
   apiKey: process.env.FIREBASE_API_KEY,
@@ -12,12 +24,38 @@ const firebaseConfig = {
   measurementId: process.env.FIREBASE_MEASUREMENT_ID,
 };
 
+const collectionId = "user-collection";
 const app = initializeApp(firebaseConfig);
 const db = getFirestore(app);
 
 export const getUserCollection = async (): Promise<DocumentData[]> => {
-  const docs = collection(db, "user-collection");
+  const docs = collection(db, collectionId);
   const snapshot = await getDocs(docs);
   const users = snapshot.docs.map((snap) => snap.data());
   return users;
+};
+
+export const getUser = async (interaction: CommandInteraction) => {
+  const q = query(collection(db, collectionId), where("clientId", "==", interaction.user.id));
+  const snapshot = await getDocs(q);
+  return snapshot.docs.map((doc) => doc.data());
+};
+
+export const addUser = async (interaction: CommandInteraction, author: string) => {
+  const docs = collection(db, collectionId);
+  const user = await getUser(interaction);
+
+  if (user.length <= 0) {
+    await addDoc(docs, { name: author, clientId: interaction.user.id });
+  } else {
+    throw new Error("이미 등록된 사용자입니다.");
+  }
+};
+
+export const deleteUser = async (interaction: CommandInteraction) => {
+  const q = query(collection(db, collectionId), where("clientId", "==", interaction.user.id));
+  const snapshot = await getDocs(q);
+  const documentId = snapshot.docs.map((doc) => doc.id)[0];
+  const docs = doc(db, collectionId, documentId);
+  await deleteDoc(docs);
 };
