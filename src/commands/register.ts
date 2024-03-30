@@ -1,4 +1,4 @@
-import { ApplicationCommandOptionType } from "discord.js";
+import { ApplicationCommandOptionType, EmbedBuilder } from "discord.js";
 import { Command } from "../types";
 import { addUser } from "../firebase";
 
@@ -15,14 +15,17 @@ export const register: Command = {
   ],
   execute: async (_, interaction) => {
     const author = interaction.options.get("author")?.value as string;
+    const embed = new EmbedBuilder();
 
     try {
       await addUser(interaction, author);
-      const msg = `${interaction.user.globalName}님! 가입해 주셔서 감사합니다.\n매일 6시에 알림을 보내드릴게요!`;
-      interaction.followUp({ content: msg });
+      embed.setTitle(`"${interaction.user.globalName}"님! 가입해 주셔서 감사합니다.`);
+      embed.setDescription("매일 6시마다 DM으로 알림이 진행됩니다. 같이 힘내봅시다.");
+      interaction.followUp({ embeds: [embed] });
     } catch (e) {
-      const msg = `이미 가입된 내역이 있습니다. 아이디 변경은 탈퇴 후 다시 등록해 주세요!`;
-      interaction.followUp({ content: msg });
+      embed.setTitle("이미 가입된 내역이 있거나, 요청에 실패하였습니다.");
+      embed.setDescription("아이디 변경은 탈퇴 후 다시 등록해 주세요.");
+      interaction.followUp({ embeds: [embed] });
     }
   },
 };
