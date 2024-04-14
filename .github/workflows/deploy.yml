@@ -1,0 +1,55 @@
+name: Deploy to cloudtype
+on:
+  push:
+    branches:
+      - main
+jobs:
+  deploy:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v2
+      - name: Connect deploy key
+        uses: cloudtype-github-actions/connect@v1
+        with:
+          token: ${{ secrets.CLOUDTYPE_TOKEN }}
+          ghtoken: ${{ secrets.GHP_TOKEN }}
+      - name: Deploy
+        uses: cloudtype-github-actions/deploy@v1
+        with:
+          token: ${{ secrets.CLOUDTYPE_TOKEN }}
+          project: jiwooproity/dailly-commit-bot
+          stage: main
+          yaml: >
+            name: dailly-commit-bot
+
+            app: node@18
+
+            options:
+              install: npm install
+              start: node ./build/daily-bot.js
+              env:
+                - name: DISCORD_TOKEN
+                  value: ${{ secrets.DISCORD_TOKEN }}
+                - name: DEVELOPER_ID
+                  value: "${{ secrets.DEVELOPER_ID }}"
+                - name: FIREBASE_API_KEY
+                  value: "${{ secrets.FIREBASE_API_KEY }}"
+                - name: FIREBASE_AUTH_DOMAIN
+                  value: "${{ secrets.FIREBASE_AUTH_DOMAIN }}"
+                - name: FIREBASE_DATABASE_URL
+                  value: "${{ secrets.FIREBASE_DATABASE_URL }}"
+                - name: FIREBASE_STORAGE_BUCKET
+                  value: "${{ secrets.FIREBASE_STORAGE_BUCKET }}"
+                - name: FIREBASE_MESSAGE_SENDER_ID
+                  value: "${{ secrets.FIREBASE_MESSAGE_SENDER_ID }}"
+                - name: FIREBASE_APP_ID
+                  value: "${{ secrets.FIREBASE_APP_ID }}"
+                - name: FIREBASE_MEASUREMENT_ID
+                  value: "${{ secrets.FIREBASE_MEASUREMENT_ID }}"
+              build: npm run build
+            context:
+              git:
+                url: git@github.com:${{ github.repository }}.git
+                ref: ${{ github.ref }}
+              preset: discordbot-js
