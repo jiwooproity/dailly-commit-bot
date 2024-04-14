@@ -23,8 +23,9 @@ const alertJob = async (client: Client) => {
 
 const alert = (client: Client) => {
   let rule = new schedule.RecurrenceRule();
-  rule.hour = 9;
+  rule.hour = 18;
   rule.minute = 0;
+  rule.tz = "Asia/Seoul";
   schedule.scheduleJob(rule, () => alertJob(client));
 };
 
